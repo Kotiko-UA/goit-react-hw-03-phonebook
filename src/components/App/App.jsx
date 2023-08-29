@@ -11,6 +11,18 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const sevedUsers = localStorage.getItem('users');
+    if (sevedUsers !== null) {
+      this.setState({ contacts: JSON.parse(sevedUsers) });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('users', JSON.stringify(this.state.contacts));
+    }
+  }
+
   onSubmit = ({ name, number }) => {
     this.setState(prevState => {
       if (prevState.contacts.find(contact => contact.name === name)) {
